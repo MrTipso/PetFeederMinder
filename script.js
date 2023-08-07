@@ -43,6 +43,20 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                     }, audio.duration * 1000);
                 }
+
+                // Store the reminder in the database
+                const reminder = {
+                    ownerName: ownerNameInput.value,
+                    petName: petNameInput.value,
+                    petType: petTypeInput.value,
+                    customPetType: customPetTypeInput.value,
+                    days: parseInt(daysInput.value) || 0,
+                    hours: parseInt(hoursInput.value) || 0,
+                    minutes: parseInt(minutesInput.value) || 0,
+                    seconds: parseInt(secondsInput.value) || 0,
+                    timerSound: timerSoundSelect.value
+                };
+                saveReminder(reminder);
             } else {
                 const days = Math.floor(timeRemaining / (24 * 60 * 60 * 1000));
                 const hours = Math.floor((timeRemaining % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
@@ -62,6 +76,41 @@ document.addEventListener("DOMContentLoaded", function () {
         stopButton.style.display = 'none';
     }
 
+    function showCountdown() {
+        countdownElement.textContent = '';
+        countdownElement.style.display = 'block';
+        stopButton.style.display = 'block';
+    }
+
+    function showSetButton() {
+        countdownElement.textContent = 'No reminder set';
+        countdownElement.style.display = 'none';
+        stopButton.style.display = 'none';
+        setButton.style.display = 'block';
+        ownerNameInput.style.display = 'block';
+        petNameInput.style.display = 'block';
+        petTypeInput.style.display = 'block';
+        customPetTypeContainer.style.display = 'block';
+        daysInput.style.display = 'block';
+        hoursInput.style.display = 'block';
+        minutesInput.style.display = 'block';
+        secondsInput.style.display = 'block';
+        timerSoundSelect.style.display = 'block';
+    }
+
+    function saveReminder(reminder) {
+        let reminders = JSON.parse(localStorage.getItem('reminders')) || [];
+        reminders.push(reminder);
+        localStorage.setItem('reminders', JSON.stringify(reminders));
+    }
+
+    function loadReminders() {
+        let reminders = JSON.parse(localStorage.getItem('reminders')) || [];
+        for (let i = 0; i < reminders.length; i++) {
+            console.log(reminders[i]);
+        }
+    }
+
     petTypeInput.addEventListener('change', () => {
         const petType = petTypeInput.value;
         if (petType === 'Custom') {
@@ -77,16 +126,17 @@ document.addEventListener("DOMContentLoaded", function () {
                              (parseInt(minutesInput.value) || 0) * 60 * 1000 +
                              (parseInt(secondsInput.value) || 0) * 1000;
 
-        const petType = petTypeInput.value === 'Custom' ? customPetTypeInput.value : petTypeInput.value;
-        const ownerName = ownerNameInput.value;
-        const petName = petNameInput.value;
-
         if (timeInMillis > 0) {
+            showCountdown();
             startCountdown(timeInMillis);
-            countdownElement.textContent = `Reminder set for ${ownerName}'s ${petType} "${petName}"`;
-            stopButton.style.display = 'block';
         }
     });
 
-    stopButton.addEventListener('click', stopTimerSound);
+    stopButton.addEventListener('click', () => {
+        stopTimerSound();
+        showSetButton();
+    });
+
+    // Load reminders when the page loads
+    loadReminders();
 });
