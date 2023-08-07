@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>PetFeedMinder by Tipso</title>
+</head>
+<body>
+    <header>
+        <h1>PetFeedMinder by Tipso</h1>
+    </header>
+    <main>
+        <div class="container">
+            <label for="owner-name">Owner Name:</label>
+            <input type="text" id="owner-name" placeholder="Enter owner name">
+            <label for="pet-name">Pet Name:</label>
+            <input type="text" id="pet-name" placeholder="Enter pet name">
+            <label for="pet-type">Pet Type:</label>
+            <select id="pet-type">
+                <option value="Cat">Cat</option>
+                <option value="Dog">Dog</option>
+                <option value="Fish">Fish</option>
+                <option value="Iguana">Iguana</option>
+                <option value="Custom">Custom</option>
+            </select>
+            <div id="custom-pet-type-container" style="display: none;">
+                <label for="custom-pet-type">Custom Pet Type:</label>
+                <input type="text" id="custom-pet-type" placeholder="Enter custom pet type">
+            </div>
+            <label for="days-input">Days:</label>
+            <input type="number" id="days-input" placeholder="0">
+            <label for="hours-input">Hours:</label>
+            <input type="number" id="hours-input" placeholder="0">
+            <label for="minutes-input">Minutes:</label>
+            <input type="number" id="minutes-input" placeholder="0">
+            <label for="seconds-input">Seconds:</label>
+            <input type="number" id="seconds-input" placeholder="0">
+            <label for="timer-sound">Choose Timer Sound:</label>
+            <select id="timer-sound">
+                <option value="none">None</option>
+                <option value="bell">Bell</option>
+                <option value="meow">Meow</option>
+                <option value="bark">Bark</option>
+            </select>
+            <button id="set-reminder">Set Reminder</button>
+        </div>
+        <div class="countdown-container">
+            <p id="countdown">No reminder set</p>
+            <button id="stop-sound" class="stop-button">I Got It!</button>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
